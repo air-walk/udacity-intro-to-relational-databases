@@ -13,14 +13,32 @@ def connect():
 
 def deleteMatches():
     """Remove all the match records from the database."""
+    conn = connect()
+    cur  = conn.cursor()
+    cur.execute("DELETE from matches;")
+    cur.execute("UPDATE players set wins = 0, num_matches = 0;")
+    conn.commit()
+    conn.close()
 
 
 def deletePlayers():
     """Remove all the player records from the database."""
+    conn = connect()
+    cur  = conn.cursor()
+    cur.execute("DELETE from players;")
+    conn.commit()
+    conn.close()
 
 
 def countPlayers():
     """Returns the number of players currently registered."""
+    conn  = connect()
+    cur   = conn.cursor()
+    cur.execute("SELECT count(*) from players;")
+    count = cur.fetchone()
+    conn.close()
+
+    return count[0]
 
 
 def registerPlayer(name):
@@ -32,6 +50,11 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    conn  = connect()
+    cur   = conn.cursor()
+    cur.execute("INSERT into players (name, num_matches, wins) values (%s, %s, %s);", (name, 0, 0, ))
+    conn.commit()
+    conn.close()
 
 
 def playerStandings():
@@ -47,6 +70,13 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    conn  = connect()
+    cur   = conn.cursor()
+    cur.execute("SELECT id, name, wins, num_matches from players order by wins;")
+    standings = cur.fetchall()
+    conn.close()
+
+    return standings
 
 
 def reportMatch(winner, loser):
@@ -56,8 +86,20 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    conn  = connect()
+    cur   = conn.cursor()
+
+    """The following three statements are part of a single transaction:
+       See: http://initd.org/psycopg/docs/usage.html#transactions-control
+    """
+    cur.execute("INSERT into matches (p1, p2, winner) values (%s, %s, %s);", (winner, loser, winner, ))
+    cur.execute("UPDATE players set num_matches = num_matches + 1, wins = wins + 1 where id = %s;", (winner, ))
+    cur.execute("UPDATE players set num_matches = num_matches + 1                  where id = %s;", (loser,  ))
+
+    conn.commit()
+    conn.close()
  
- 
+
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
   
@@ -73,5 +115,12 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    standings = playerStandings()
+    i      = 0
+    result = list()
 
+    while (i < len(standings)):
+        result.append((standings[i][0], standings[i][1], standings[i + 1][0], standings[i + 1][1]))
+        i += 2
 
+    return result
