@@ -22,6 +22,6 @@ def add_post(content):
   """Add a post to the 'database' with the current timestamp."""
   conn = get_connection()
   cur  = conn.cursor()
-  cur.execute("INSERT INTO posts (content, time) VALUES (%s, %s)", (content, datetime.datetime.now()))
+  cur.execute("INSERT INTO posts (content, time) VALUES (%s, %s)", (content, datetime.datetime.now(), ))
   conn.commit()
   conn.close()
