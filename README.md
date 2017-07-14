@@ -7,7 +7,19 @@ This repo contains exercise solutions for *Intro to Relational Databases* course
 * VirtualBox
 
 ## Prerequisites:
-1. 
+1. Execute the following commands in your terminal:
+```bash
+git clone https://github.com/air-walk/udacity-intro-to-relational-databases.git
+cd udacity-intro-to-relational-databases/project/vagrant
+vagrant up
+vagrant ssh
+```
+You should now be logged into the VM managed by Vagrant.
 
 ## Steps:
-1. 
+1. Execute the following commands inside the VM managed by Vagrant:
+```bash
+cd /vagrant
+psql -d news -f newsdata.sql
+python logs_analysis.py
+```
