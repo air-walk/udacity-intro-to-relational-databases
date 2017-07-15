@@ -11,6 +11,9 @@ This repo contains exercise solutions for *Intro to Relational Databases* course
 ```bash
 git clone https://github.com/air-walk/udacity-intro-to-relational-databases.git
 cd udacity-intro-to-relational-databases/project/vagrant
+curl https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip -o newsdata.zip
+unzip newsdata.zip
+rm newsdata.zip
 vagrant up
 vagrant ssh
 ```
