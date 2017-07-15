@@ -38,3 +38,5 @@ create view aggregated_all_logs AS (select time::date as date, count(*) as count
 from log
 group by time::date);
 ```
+## Output:
+Outptut generated has been placed in `output.txt`
