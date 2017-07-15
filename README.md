@@ -21,5 +21,6 @@ You should now be logged into the VM managed by Vagrant.
 ```bash
 cd /vagrant
 psql -d news -f newsdata.sql
+psql -d news -f create_views.sql
 python logs_analysis.py
 ```
