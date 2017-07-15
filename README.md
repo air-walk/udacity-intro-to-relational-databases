@@ -24,3 +24,14 @@ psql -d news -f newsdata.sql
 psql -d news -f create_views.sql
 python logs_analysis.py
 ```
+***Note*** that `create_views.sql` has these view creation DDL statements:
+```sql
+create view aggregated_error_logs AS (select time::date as date, count(*) as count
+from log
+where status != '200 OK'
+group by time::date);
+
+create view aggregated_all_logs AS (select time::date as date, count(*) as count
+from log
+group by time::date);
+```
