@@ -1,5 +1,5 @@
 # Udacity - Intro to Relational Databases
-This repo contains exercise solutions for *Intro to Relational Databases* course from Udacity. It also contains the **Logs Analysis** project for FSND inside the `project/` directory. Here are the instructions to get the project up and running on your machine.
+This repo contains solved exercises for Udacity's [Intro to Relational Databases](https://www.udacity.com/course/intro-to-relational-databases--ud197) course. It also contains the **Logs Analysis** project for Full Stack Nanodegree inside the `project/` directory. Here are the instructions to get the project up and running on your machine.
 
 ## System requirements:
 * Python2.7
